@@ -1,0 +1,38 @@
+﻿@using CWDocs.Models
+@*@model CWDocsIndexViewModel*@
+@{
+    ViewData["Title"] = "CWDocs Login Page";
+    Layout = "_CWDocsLayout";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<h1>Login</h1>
+<form method="post" asp-controller="Account" asp-action="Login">
+    <br>
+    <br>
+    <div>
+        <div class="row">
+            <div class="col-4">
+                <a asp-controller="Account" asp-action="CreateUser">New User</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <input name="userName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <input type="password" name="password" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <button type="submit">Login</button>
+            </div>
+        </div>
+    </div>
+
+
+</form>

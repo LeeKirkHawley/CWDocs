@@ -1,0 +1,24 @@
+﻿body {
+    color: black;
+    background-color: wheat;
+}
+
+.header {
+    padding: 10px;
+    text-align: center;
+    border: 5px solid orange;
+    font-family: 'Times New Roman', cursive;
+}
+
+.header-title {
+    font-size: 3rem;
+}
+
+.header-text {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.ocr-text {
+    border: 5px solid orange;
+}
