@@ -250,10 +250,9 @@ namespace CWDocs.Controllers {
 
         [HttpGet]
         public IActionResult View(int Id) {
-            //return Content($"View Page {Id}");
 
             Document document = _context.Documents.Where(d => d.fileId == Id).FirstOrDefault();
-            string documentFilePath = $"\\uploads\\{document.documentName}";
+            string documentFilePath = Path.Combine(_settings["DocumentFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
                 Image = documentFilePath
