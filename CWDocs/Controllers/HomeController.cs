@@ -252,6 +252,7 @@ namespace CWDocs.Controllers {
         public IActionResult View(int Id) {
 
             Document document = _context.Documents.Where(d => d.fileId == Id).FirstOrDefault();
+            //string documentFilePath = $"\\uploads\\{document.documentName}";
             string documentFilePath = Path.Combine(_settings["DocumentFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
@@ -260,6 +261,5 @@ namespace CWDocs.Controllers {
 
             return View(model);
         }
-
     }
 }
