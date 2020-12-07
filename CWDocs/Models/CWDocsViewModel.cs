@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace CWDocs.Models {
     public class CWDocsViewModel {
-        public string Image { get; set; }
-
+        public string image { get; set; }
+        public string documentName { get; set; }
+        public string originalDocumentName { get; set; }
+        public string documentDate { get; set; }
     }
 }

@@ -271,7 +271,10 @@ namespace CWDocs.Controllers {
             string documentFilePath = Path.Combine(_settings["HTMLFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
-                Image = documentFilePath
+                image = documentFilePath,
+                documentName = document.documentName,
+                originalDocumentName = document.originalDocumentName,
+                documentDate = new DateTime(document.documentDate).ToString()
             };
 
             return View(model);
