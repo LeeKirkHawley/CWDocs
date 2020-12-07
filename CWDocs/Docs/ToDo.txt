@@ -1,0 +1,4 @@
+﻿Each user should have dedicated folder for docs
+Delete uploaded documents
+Do something with Privacy link at bottom of page
+Email new user for verification
