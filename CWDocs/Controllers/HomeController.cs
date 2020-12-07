@@ -285,7 +285,6 @@ namespace CWDocs.Controllers {
         public async Task<IActionResult> Delete([FromForm]int documentId) {
 
             Document document = _context.Documents.Where(d => d.fileId == documentId).FirstOrDefault();
-            //string documentFilePath = $"\\uploads\\{document.documentName}";
             string documentFilePath = Path.Combine(_settings["DocumentFilePath"], document.documentName);
 
             var ret = _context.Remove(document);

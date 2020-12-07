@@ -5,7 +5,7 @@
     Layout = "_CWDocsLayout";
 }
 
-<form>
+<form id="DeleteForm">
     <input asp-for="documentId" type="hidden" />
 
     <strong>Name: </strong> @Model.originalDocumentName
@@ -15,7 +15,23 @@
     <img class="img" src="@Model.image" style="max-width:600px" />
 
 
-    <input type="submit" name="delete" value="Delete"
-           formaction="/Home/Delete" formmethod="post" />
+    @*<input type="submit" name="Delete" value="Delete"
+        formaction="/Home/Delete" formmethod="post" />*@
+    <input type="submit" id="Delete" name="Delete" value="Delete" />
+
 
 </form>
+
+<script>
+    $(function () {
+        $("#Delete").click(function (e) {
+            var dataToPost = $("#DeleteForm").serialize()
+            $.ajax(
+                {
+                    type: "POST",
+                    data: dataToPost,
+                    url: "/Home/Delete"
+                })
+        })
+    })
+</script>
