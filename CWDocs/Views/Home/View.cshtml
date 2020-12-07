@@ -1,12 +1,21 @@
 ﻿@using CWDocs.Models
 @model CWDocsViewModel
 @{
-    ViewData["Title"] = "CWDocs View Document Page";
+    ViewData["Title"] = "View Document";
     Layout = "_CWDocsLayout";
 }
 
+<form>
+    <input asp-for="documentId" type="hidden" />
 
-<strong>Name: </strong> @Model.originalDocumentName
-<strong>File: </strong>@Model.documentName
-<strong>Date: </strong>@Model.documentDate
-<img class="img" src="@Model.image" style="max-width:600px" />
+    <strong>Name: </strong> @Model.originalDocumentName
+    <strong>File: </strong>@Model.documentName
+    <strong>Date: </strong>@Model.documentDate
+
+    <img class="img" src="@Model.image" style="max-width:600px" />
+
+
+    <input type="submit" name="delete" value="Delete"
+           formaction="/Home/Delete" formmethod="post" />
+
+</form>
