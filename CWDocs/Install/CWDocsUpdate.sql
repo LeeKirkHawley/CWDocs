@@ -1,0 +1,1 @@
+﻿ALTER TABLE Documents ADD COLUMN documentDate LONG;

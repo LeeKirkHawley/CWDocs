@@ -179,7 +179,8 @@ namespace CWDocs.Controllers {
             Document newDoc = _context.Documents.Add(new Document {
                 userId = user.Id,
                 documentName = Path.GetFileName(documentFilePath),
-                originalDocumentName = originalFileName
+                originalDocumentName = originalFileName, 
+                documentDate = DateTime.Now.Ticks
             }).Entity;
 
             try {
@@ -228,6 +229,18 @@ namespace CWDocs.Controllers {
 
             // get documents from db
             List<Document> docList = _context.Documents.Where(d => d.userId == user.Id).ToList();
+            List<DocumentDataTableModel> docDataTableModel = new List<DocumentDataTableModel>();
+            foreach(Document doc in docList) {
+                DocumentDataTableModel m = new DocumentDataTableModel();
+                
+                m.fileId = doc.fileId;
+                m.userId = doc.userId;
+                m.originalDocumentName = doc.originalDocumentName;
+                m.documentName = doc.documentName;
+                m.documentDate = new DateTime(doc.documentDate).ToString();
+
+                docDataTableModel.Add(m);
+            }
 
             //Sorting  
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
@@ -243,7 +256,7 @@ namespace CWDocs.Controllers {
             recordsTotal = docList.Count();
 
             //Paging   
-            var data = docList.Skip(skip).Take(pageSize).ToList();
+            var data = docDataTableModel.Skip(skip).Take(pageSize).ToList();
 
             //Returning Json Data  
             var json = Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
