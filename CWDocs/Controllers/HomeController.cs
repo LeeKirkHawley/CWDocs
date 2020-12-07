@@ -71,7 +71,7 @@ namespace CWDocs.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> UploadDoc() {
+        public IActionResult UploadDoc() {
 
             var user = HttpContext.User.Identities.ToArray()[0];
             if (!user.IsAuthenticated) {
@@ -146,6 +146,7 @@ namespace CWDocs.Controllers {
             catch (Exception ex) {
                 _debugLogger.Debug($"Couldn't write file {documentFilePath}");
                 // HANDLE ERROR
+                throw;
             }
 
             //string errorMsg = "";
@@ -188,7 +189,8 @@ namespace CWDocs.Controllers {
                 throw;
             }
 
-            return View(model);
+            // redirect to home page
+            return Redirect("/");
         }
 
         [HttpPost]
@@ -253,7 +255,7 @@ namespace CWDocs.Controllers {
 
             Document document = _context.Documents.Where(d => d.fileId == Id).FirstOrDefault();
             //string documentFilePath = $"\\uploads\\{document.documentName}";
-            string documentFilePath = Path.Combine(_settings["DocumentFilePath"], document.documentName);
+            string documentFilePath = Path.Combine(_settings["HTMLFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
                 Image = documentFilePath
