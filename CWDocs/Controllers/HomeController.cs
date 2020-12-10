@@ -267,7 +267,6 @@ namespace CWDocs.Controllers {
         public IActionResult View(int Id) {
 
             Document document = _context.Documents.Where(d => d.fileId == Id).FirstOrDefault();
-            //string documentFilePath = $"\\uploads\\{document.documentName}";
             string documentFilePath = Path.Combine(_settings["HTMLFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
@@ -282,18 +281,17 @@ namespace CWDocs.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromForm]int documentId) {
+        public IActionResult Delete([FromForm] int documentId) {
 
             Document document = _context.Documents.Where(d => d.fileId == documentId).FirstOrDefault();
             string documentFilePath = Path.Combine(_settings["DocumentFilePath"], document.documentName);
 
             var ret = _context.Remove(document);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             System.IO.File.Delete(documentFilePath);
 
-            // redirect to home page
-            return Redirect("/");
+            return Ok();
         }
     }
 }
