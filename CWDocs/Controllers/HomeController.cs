@@ -130,7 +130,6 @@ namespace CWDocs.Controllers {
                                   data = dtModel.data });
 
             return json;
-
         }
 
         [HttpGet]
@@ -152,15 +151,7 @@ namespace CWDocs.Controllers {
 
         [HttpPost]
         public IActionResult Delete([FromForm] int documentId) {
-
-            Document document = _context.Documents.Where(d => d.fileId == documentId).FirstOrDefault();
-            string documentFilePath = Path.Combine(_settings["DocumentFilePath"], document.documentName);
-
-            var ret = _context.Remove(document);
-            _context.SaveChanges();
-
-            System.IO.File.Delete(documentFilePath);
-
+            _documentService.DeleteDocument(documentId);
             return Ok();
         }
     }

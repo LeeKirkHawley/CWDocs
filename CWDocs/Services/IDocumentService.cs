@@ -13,5 +13,6 @@ namespace CWDocs.Services {
     public interface IDocumentService {
         public DataTablesModel LoadDocuments(User user, string draw, string start, string length, string sortColumn, string sortColumnDirection, string searchValue);
         public void UploadDocuments(CWDocsUploadDocsViewModel model, IFormFile[] files, ClaimsPrincipal User);
+        public void DeleteDocument(int documentId);
     }
 }
