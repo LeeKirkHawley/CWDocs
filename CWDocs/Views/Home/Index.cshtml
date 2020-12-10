@@ -64,7 +64,6 @@
         if (!del)
             return;
 
-        //var dataToPost = $("#DeleteForm").serialize()
         var dataToPost = {
             documentId: id
         }
@@ -73,7 +72,6 @@
             {
                 method: "POST",
                 data: dataToPost,
-                //dataType: "json",
                 url: "/Home/Delete"
             }).done(function (response) {
                 window.location.reload();
