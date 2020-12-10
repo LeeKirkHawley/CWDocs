@@ -22,18 +22,20 @@ namespace CWDocs.Controllers {
         private readonly IConfiguration _settings;
         //private readonly IOCRService _ocrService;
         private readonly IWebHostEnvironment _environment;
-        private readonly SQLiteDBContext _context;
+        private readonly CWDocsDbContext _context;
         private readonly IUserService _userService;
         private readonly IAccountService _accountService;
         private readonly AccountController _accountController;
+        private readonly IDocumentService _documentService;
 
 
         public HomeController(IConfiguration settings,
                                 //IOCRService ocrService,
                                 IWebHostEnvironment environment,
-                                SQLiteDBContext context,
+                                CWDocsDbContext context,
                                 IUserService userService,
                                 IAccountService accountService,
+                                IDocumentService documentService,
                                 AccountController accountController) {
             _debugLogger = LogManager.GetLogger("debugLogger"); 
             _settings = settings;
@@ -42,6 +44,7 @@ namespace CWDocs.Controllers {
             _context = context;
             _userService = userService;
             _accountService = accountService;
+            _documentService = documentService;
             _accountController = accountController;
 
 //            _ocrService.SetupLanguages();
@@ -197,6 +200,12 @@ namespace CWDocs.Controllers {
         [HttpPost]
         public IActionResult LoadDocs() {
             User user = _context.Users.Where(u => u.userName == HttpContext.User.Identities.ToArray()[0].Name).FirstOrDefault();
+            // if user is not logged in, don't show nothin
+            if (user == null) {
+                List<Document> emptyList = new List<Document>();
+                var errorJson = Json(new { draw = 0, recordsFiltered = 0, recordsTotal = 0, data = emptyList });
+                return errorJson;
+            }
 
             var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
 
@@ -215,52 +224,15 @@ namespace CWDocs.Controllers {
             // Search Value from (Search box)  
             var searchValue = Request.Form["search[value]"].FirstOrDefault();
 
-            //Paging Size (10,20,50,100)  
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int recordsTotal = 0;
+            DataTablesModel dtModel = _documentService.LoadDocuments(user, draw, start, length, sortColumn, sortColumnDirection, searchValue);
 
-            // if user is not logged in, don't show nothin
-            if (user == null) {
-                List<Document> emptyList = new List<Document>();
-                var errorJson = Json(new { draw = draw, recordsFiltered = 0, recordsTotal = 0, data = emptyList });
-                return errorJson;
-            }
+            var json = Json(new { draw = draw, 
+                                  recordsFiltered = dtModel.recordsFiltered, 
+                                  recordsTotal = dtModel.recordsTotal, 
+                                  data = dtModel.data });
 
-            // get documents from db
-            List<Document> docList = _context.Documents.Where(d => d.userId == user.Id).ToList();
-            List<DocumentDataTableModel> docDataTableModel = new List<DocumentDataTableModel>();
-            foreach(Document doc in docList) {
-                DocumentDataTableModel m = new DocumentDataTableModel();
-                
-                m.fileId = doc.fileId;
-                m.userId = doc.userId;
-                m.originalDocumentName = doc.originalDocumentName;
-                m.documentName = doc.documentName;
-                m.documentDate = new DateTime(doc.documentDate).ToString();
-
-                docDataTableModel.Add(m);
-            }
-
-            //Sorting  
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
-                docList = OrderByExtension.OrderBy<Document>(docList.AsQueryable<Document>(), sortColumn).ToList();
-            }
-
-            //Search  
-            if (!string.IsNullOrEmpty(searchValue)) {
-                docList = docList.Where(m => m.originalDocumentName.Contains(searchValue)).ToList();
-            }
-
-            //total number of rows count   
-            recordsTotal = docList.Count();
-
-            //Paging   
-            var data = docDataTableModel.Skip(skip).Take(pageSize).ToList();
-
-            //Returning Json Data  
-            var json = Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
             return json;
+
         }
 
         [HttpGet]

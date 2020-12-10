@@ -29,10 +29,11 @@ namespace CWDocs {
 
             services.AddControllersWithViews();
 
-            services.AddDbContext<SQLiteDBContext>();
+            services.AddDbContext<CWDocsDbContext>();
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IDocumentService, DocumentService>();
             //services.AddTransient<IOCRService, OCRService>();
             services.AddTransient<AccountController>();
 

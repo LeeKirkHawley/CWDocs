@@ -8,9 +8,9 @@ using CWDocs.Models;
 namespace CWDocs.Services {
 
     public class UserService : IUserService {
-        private readonly SQLiteDBContext _context;
+        private readonly CWDocsDbContext _context;
 
-        public UserService(SQLiteDBContext context) {
+        public UserService(CWDocsDbContext context) {
             _context = context;
         }
 
