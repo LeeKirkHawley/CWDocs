@@ -30,5 +30,16 @@ namespace CWDocs.Services {
 
             return newuser.Entity;
         }
+
+        public bool DeleteUser(User user) {
+            try {
+                var entity = _context.Users.Remove(user);
+            }
+            catch(Exception ex) {
+                throw;
+            }
+
+            return true;
+        }
     }
 }

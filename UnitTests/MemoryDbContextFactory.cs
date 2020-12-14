@@ -24,15 +24,11 @@ namespace UnitTests {
                 _connection.Open();
 
                 var options = CreateOptions();
-                //using (var context = new CWDocsDbContext(options)) {
-                //    context.Database.EnsureCreated();
-                //}
                 using (var context = new CWDocsDbContext()) {
                     context.Database.EnsureCreated();
                 }
             }
 
-            //return new CWDocsDbContext(CreateOptions());
             return new CWDocsDbContext();
         }
 
