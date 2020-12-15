@@ -1,5 +1,5 @@
-﻿using CWDocs;
-using CWDocs.Models;
+﻿using CWDocsCore;
+using CWDocsCore.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace CWDocs.Services {
+namespace CWDocsCore.Services {
     public class AccountService : IAccountService {
 
         private readonly CWDocsDbContext _context;
@@ -23,7 +23,7 @@ namespace CWDocs.Services {
 
         public ClaimsPrincipal Login(string userName, string password) {
 
-            User user = _userService.GetAllowedUser(userName);
+            UserModel user = _userService.GetAllowedUser(userName);
             if (user == null) {
                 return null;
             }
@@ -46,7 +46,7 @@ namespace CWDocs.Services {
 
         public ClaimsPrincipal CreateUser(string userName, string password, string role) {
 
-            User user = _userService.CreateUser(userName, password, role);
+            UserModel user = _userService.CreateUser(userName, password, role);
             if (user == null) {
                 return null;
             }

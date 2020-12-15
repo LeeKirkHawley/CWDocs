@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CWDocs.Extensions {
+namespace CWDocsCore.Extensions {
     public static class AsyncExtensions {
         /// <summary>
         /// Waits asynchronously for the process to exit.

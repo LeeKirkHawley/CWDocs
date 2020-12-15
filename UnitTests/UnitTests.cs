@@ -1,10 +1,11 @@
 using System;
 using Xunit;
-using CWDocs.Services;
+using CWDocsCore.Services;
 using Moq;
 using System.Threading.Tasks;
-using CWDocs.Models;
+using CWDocsCore.Models;
 using CWDocs;
+using CWDocsCore;
 
 namespace UnitTests {
     public class UnitTests : IDisposable{
@@ -25,10 +26,10 @@ namespace UnitTests {
         [Fact]
         public async Task Should_Create_New_User() {
             var userService = new UserService(_context);
-            User newUser = userService.CreateUser("Aloysius Aardvark", "pwd", "Admin");
+            UserModel newUser = userService.CreateUser("Aloysius Aardvark", "pwd", "Admin");
             await _context.SaveChangesAsync();
 
-            User addedUser = userService.GetAllowedUser("Aloysius Aardvark");
+            UserModel addedUser = userService.GetAllowedUser("Aloysius Aardvark");
 
             Assert.Equal("Aloysius Aardvark", addedUser.userName);
         }
@@ -36,13 +37,13 @@ namespace UnitTests {
         [Fact]
         public async Task Should_Delete_User() {
             var userService = new UserService(_context);
-            User newUser = userService.CreateUser("Aloysius Aardvark", "pwd", "Admin");
+            UserModel newUser = userService.CreateUser("Aloysius Aardvark", "pwd", "Admin");
             await _context.SaveChangesAsync();
 
             userService.DeleteUser(newUser);
             await _context.SaveChangesAsync();
 
-            User addedUser = userService.GetAllowedUser("Aloysius Aardvark");
+            UserModel addedUser = userService.GetAllowedUser("Aloysius Aardvark");
             Assert.Null(addedUser);
         }
     }

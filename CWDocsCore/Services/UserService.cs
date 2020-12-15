@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CWDocs;
-using CWDocs.Models;
+using CWDocsCore;
+using CWDocsCore.Models;
 
-namespace CWDocs.Services {
+namespace CWDocsCore.Services {
 
     public class UserService : IUserService {
         private readonly CWDocsDbContext _context;
@@ -14,14 +14,14 @@ namespace CWDocs.Services {
             _context = context;
         }
 
-        public User GetAllowedUser(string userName) {
-            User user = _context.Users.Where(u => u.userName == userName).FirstOrDefault();
+        public UserModel GetAllowedUser(string userName) {
+            UserModel user = _context.Users.Where(u => u.userName == userName).FirstOrDefault();
             return user;
         }
 
-        public User CreateUser(string userName, string password, string role) {
+        public UserModel CreateUser(string userName, string password, string role) {
 
-            var newuser = _context.Users.Add(new User {
+            var newuser = _context.Users.Add(new UserModel {
                 userName = userName,
                 pwd = password,
                 role = role
@@ -31,7 +31,7 @@ namespace CWDocs.Services {
             return newuser.Entity;
         }
 
-        public bool DeleteUser(User user) {
+        public bool DeleteUser(UserModel user) {
             try {
                 var entity = _context.Users.Remove(user);
             }

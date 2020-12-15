@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace CWDocs.Services {
+namespace CWDocsCore.Services {
     public interface IAccountService {
 
         public abstract ClaimsPrincipal Login(string userName, string password);

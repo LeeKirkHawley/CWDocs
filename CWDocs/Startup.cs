@@ -1,5 +1,5 @@
 using CWDocs.Controllers;
-using CWDocs.Services;
+using CWDocsCore.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CWDocsCore;
 
 namespace CWDocs {
     public class Startup {

@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CWDocs.Models {
-    public class Document {
+namespace CWDocsCore.Models {
+    public class DocumentModel {
         [Key]
         [Column("Id")]
         public int fileId { get; set; }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using CWDocs.Models;
+using CWDocsCore.Models;
 
-namespace CWDocs {
+namespace CWDocsCore {
     public class CWDocsDbContext : DbContext {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Document> Documents { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+        public DbSet<DocumentModel> Documents { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite("Data Source=CWDocs.db");
+            => options.UseSqlite("Data Source=C:\\Work\\CWDocs\\CWDocsCore\\CWDocs.db");
     }
 }

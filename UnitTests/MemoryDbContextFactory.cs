@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CWDocs;
 using Microsoft.Data.Sqlite;
+using CWDocsCore;
 
 namespace UnitTests {
 
