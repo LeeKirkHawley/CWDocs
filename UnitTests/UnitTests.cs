@@ -10,7 +10,6 @@ namespace UnitTests {
     public class UnitTests : IDisposable{
 
         CWDocsDbContext _context;
-        private readonly MemoryDbContextFactory _contextFactory;
 
         public UnitTests() {
             using (var factory = new MemoryDbContextFactory()) {
