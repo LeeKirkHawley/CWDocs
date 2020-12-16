@@ -140,9 +140,27 @@ namespace CWDocs.Controllers {
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int recordsTotal = 0;
+            int recordsFiltered = 0;
 
             // get documents from db
             List<DocumentModel> docList = _context.Documents.Where(d => d.userId == user.Id).ToList();
+
+            recordsTotal = docList.Count();
+            recordsFiltered = docList.Count();
+
+            //Sorting  
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
+                docList = OrderByExtension.OrderBy<DocumentModel>(docList.AsQueryable<DocumentModel>(), sortColumn).ToList();
+            }
+
+            //Search  
+            if (!string.IsNullOrEmpty(searchValue)) {
+                docList = docList.Where(m => m.originalDocumentName.Contains(searchValue)).ToList();
+                recordsFiltered = docList.Count();
+            }
+
+            //total number of rows count   
+
             List<DocumentDataTableModel> docDataTableModel = new List<DocumentDataTableModel>();
             foreach (DocumentModel doc in docList) {
                 DocumentDataTableModel m = new DocumentDataTableModel();
@@ -156,25 +174,12 @@ namespace CWDocs.Controllers {
                 docDataTableModel.Add(m);
             }
 
-            //Sorting  
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
-                docList = OrderByExtension.OrderBy<DocumentModel>(docList.AsQueryable<DocumentModel>(), sortColumn).ToList();
-            }
-
-            //Search  
-            if (!string.IsNullOrEmpty(searchValue)) {
-                docList = docList.Where(m => m.originalDocumentName.Contains(searchValue)).ToList();
-            }
-
-            //total number of rows count   
-            recordsTotal = docList.Count();
-
             List<DocumentDataTableModel> data = docDataTableModel.Skip(skip).Take(pageSize).ToList();
 
             DataTablesModel dtModel = new DataTablesModel {
                 draw = draw,
-                recordsFiltered = data.Count,
-                recordsTotal = recordsTotal,
+                recordsFiltered = recordsFiltered, // records after search - NOT the page count
+                recordsTotal = recordsTotal,       // total records before any searching or pagination or anything
                 data = data,
             };
 
