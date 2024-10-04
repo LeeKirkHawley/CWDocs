@@ -45,11 +45,11 @@
                 {
                     "render": function (data, type, row, meta) {
                         // target="_blank" opens file in new window
-                        return '<a href="/Home/View/' + row.fileId + '" target="_blank">View</a>';
-                        //return '<a href="/Home/View/' + row.fileId + '" target="_blank">View</a>'
-                        //    + ' | '
-                        //    + '<a style="color: red;" onclick="DeleteDoc(' + row.fileId + ')">Delete</a>';
-                        //    // using syle here because CWDocsMaster.css isn't being used here for some reason
+                        //return '<a href="/Home/View/' + row.fileId + '" target="_blank">View</a>';
+                        return '<a href="/Home/View/' + row.fileId + '" target="_blank">View</a>'
+                            + ' | '
+                            + '<a style="color: red;" onclick="DeleteDoc(' + row.fileId + ')">Delete</a>';
+                            // using syle here because CWDocsMaster.css isn't being used here for some reason
                     }                },
                 { data: "fileId", name: "fileId"},
                 { data: "userId", name: "userId" },

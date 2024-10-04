@@ -62,7 +62,7 @@ namespace CWDocs.Controllers {
 
             CWDocsIndexViewModel model = new CWDocsIndexViewModel();
 
-            _accountController.Login();
+            //var l =_accountController.Login();
 
             return View(model);
         }
@@ -108,6 +108,9 @@ namespace CWDocs.Controllers {
                 return errorJson;
             }
 
+            List<DocumentModel> docList = _documentService.GetDocuments(user);
+
+            // most of the following code should be there for paging etc. on the DataTable
             var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
 
             // Skip number of Rows count  
@@ -125,7 +128,7 @@ namespace CWDocs.Controllers {
             // Search Value from (Search box)  
             var searchValue = Request.Form["search[value]"].FirstOrDefault();
 
-            DataTablesModel dtModel = LoadDocuments(user, draw, start, length, sortColumn, sortColumnDirection, searchValue);
+            DataTablesModel dtModel = FilterDocs(docList, draw, start, length, sortColumn, sortColumnDirection, searchValue);
 
             var json = Json(new { draw = draw, 
                                   recordsFiltered = dtModel.recordsFiltered, 
@@ -135,26 +138,27 @@ namespace CWDocs.Controllers {
             return json;
         }
 
-        public DataTablesModel LoadDocuments(UserModel user, string draw, string start, string length, string sortColumn, string sortColumnDirection, string searchValue) {
+        public DataTablesModel FilterDocs(List<DocumentModel> docList, string draw, string start, string length, string sortColumn, string sortColumnDirection, string searchValue)
+        {
+            int pageSize, skip, recordsTotal, recordsFiltered;
+            recordsTotal = 0;
+            recordsFiltered = 0;
             //Paging Size (10,20,50,100)  
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int recordsTotal = 0;
-            int recordsFiltered = 0;
-
-            // get documents from db
-            List<DocumentModel> docList = _context.Documents.Where(d => d.userId == user.Id).ToList();
+            pageSize = length != null ? Convert.ToInt32(length) : 0;
+            skip = start != null ? Convert.ToInt32(start) : 0;
 
             recordsTotal = docList.Count();
             recordsFiltered = docList.Count();
 
             //Sorting  
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+            {
                 docList = OrderByExtension.OrderBy<DocumentModel>(docList.AsQueryable<DocumentModel>(), sortColumn).ToList();
             }
 
             //Search  
-            if (!string.IsNullOrEmpty(searchValue)) {
+            if (!string.IsNullOrEmpty(searchValue))
+            {
                 docList = docList.Where(m => m.originalDocumentName.Contains(searchValue)).ToList();
                 recordsFiltered = docList.Count();
             }
@@ -162,7 +166,8 @@ namespace CWDocs.Controllers {
             //total number of rows count   
 
             List<DocumentDataTableModel> docDataTableModel = new List<DocumentDataTableModel>();
-            foreach (DocumentModel doc in docList) {
+            foreach (DocumentModel doc in docList)
+            {
                 DocumentDataTableModel m = new DocumentDataTableModel();
 
                 m.fileId = doc.fileId;
@@ -176,7 +181,8 @@ namespace CWDocs.Controllers {
 
             List<DocumentDataTableModel> data = docDataTableModel.Skip(skip).Take(pageSize).ToList();
 
-            DataTablesModel dtModel = new DataTablesModel {
+            DataTablesModel dtModel = new DataTablesModel
+            {
                 draw = draw,
                 recordsFiltered = recordsFiltered, // records after search - NOT the page count
                 recordsTotal = recordsTotal,       // total records before any searching or pagination or anything
@@ -186,11 +192,11 @@ namespace CWDocs.Controllers {
             return dtModel;
         }
 
-
         [HttpGet]
         public IActionResult View(int Id) {
 
             DocumentModel document = _context.Documents.Where(d => d.fileId == Id).FirstOrDefault();
+
             string documentFilePath = Path.Combine(_settings["HTMLFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
