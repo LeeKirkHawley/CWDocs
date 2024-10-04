@@ -1,7 +1,5 @@
 ﻿using CWDocsCore.Extensions;
 using CWDocsCore.Models;
-using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,7 +10,6 @@ using System.Threading.Tasks;
 using NLog;
 using System.Threading;
 using System.IO;
-//using Castle.Core.Configuration;
 
 namespace CWDocsCore.Services {
     public class DocumentService : IDocumentService {

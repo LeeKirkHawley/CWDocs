@@ -1,7 +1,6 @@
 ﻿using CWDocsCore;
 using CWDocsCore.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using System;
