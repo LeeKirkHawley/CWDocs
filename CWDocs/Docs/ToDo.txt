@@ -1,5 +1,8 @@
 ﻿Upload multiple files
 Tests
 
+Hash passwords in db?
+Replace cookies with JWT
+If still cookies, implement this stuff https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies
 Each user should have dedicated folder for docs
 Email new user for verification
