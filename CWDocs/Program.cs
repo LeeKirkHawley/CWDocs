@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +11,12 @@ using System.Threading.Tasks;
 namespace CWDocs {
     public class Program {
         public static void Main(string[] args) {
-            CreateHostBuilder(args).Build().Run();
+            //Log.Logger = new LoggerConfiguration()
+            //    .WriteTo.Console()
+            //    .CreateBootstrapLogger();
+
+            IHost app = CreateHostBuilder(args).Build();
+            app.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

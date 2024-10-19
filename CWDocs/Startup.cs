@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CWDocsCore;
+using Microsoft.Extensions.Logging;
 
 namespace CWDocs {
     public class Startup {
@@ -33,6 +34,7 @@ namespace CWDocs {
                                       policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                                   });
             });
+
             // Enable cookie authentication
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie();
@@ -60,6 +62,9 @@ namespace CWDocs {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //app.UseSerilog();
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace CWDocs.Controllers {
     public class HomeController : Controller {
-        private readonly Logger _debugLogger;
+//        private readonly Logger _debugLogger;
         private readonly IConfiguration _settings;
         //private readonly IOCRService _ocrService;
         private readonly IWebHostEnvironment _environment;
@@ -31,6 +31,8 @@ namespace CWDocs.Controllers {
         private readonly IAccountService _accountService;
         private readonly AccountController _accountController;
         private readonly IDocumentService _documentService;
+
+        public static NLog.Logger _logger { get; set; } = LogManager.GetCurrentClassLogger();
 
 
         public HomeController(IConfiguration settings,
@@ -41,7 +43,6 @@ namespace CWDocs.Controllers {
                                 IAccountService accountService,
                                 IDocumentService documentService,
                                 AccountController accountController) {
-            _debugLogger = LogManager.GetLogger("debugLogger"); 
             _settings = settings;
 //          _ocrService = ocrService;
             _environment = environment;
@@ -51,7 +52,9 @@ namespace CWDocs.Controllers {
             _documentService = documentService;
             _accountController = accountController;
 
-//            _ocrService.SetupLanguages();
+            //            _ocrService.SetupLanguages();
+
+        _logger.Debug("TEST LOGGING");
 
         }
 
@@ -249,10 +252,10 @@ namespace CWDocs.Controllers {
                 file = $"{files[0].FileName}";
             }
             catch (Exception ex) {
-                _debugLogger.Debug(ex, "Exception reading file name.");
+                _logger.Debug(ex, "Exception reading file name.");
             }
 
-            _debugLogger.Info($"Thread {Thread.CurrentThread.ManagedThreadId}: Processing file {file}");
+            _logger.Info($"Thread {Thread.CurrentThread.ManagedThreadId}: Processing file {file}");
 
 
             // Extract file name from whatever was posted by browser
@@ -289,11 +292,11 @@ namespace CWDocs.Controllers {
                     TimeSpan ts = (finishTime - startTime);
                     string duration = ts.ToString(@"hh\:mm\:ss");
 
-                    _debugLogger.Info($"Thread {Thread.CurrentThread.ManagedThreadId}: Finished uploading document {file} to {localFile} Elapsed time: {duration}");
+                    _logger.Info($"Thread {Thread.CurrentThread.ManagedThreadId}: Finished uploading document {file} to {localFile} Elapsed time: {duration}");
                 }
             }
             catch (Exception ex) {
-                _debugLogger.Debug($"Couldn't write file {documentFilePath}");
+                _logger.Debug($"Couldn't write file {documentFilePath}");
                 // HANDLE ERROR
                 throw;
             }
