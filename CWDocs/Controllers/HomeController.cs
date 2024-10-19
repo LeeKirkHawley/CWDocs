@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CWDocsCore;
 using CWDocsCore.Models;
+using Microsoft.AspNetCore.Diagnostics;
 
 
 namespace CWDocs.Controllers {
@@ -73,7 +74,24 @@ namespace CWDocs.Controllers {
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var exception = exceptionHandlerPathFeature?.Error;
+
+            // Create a view model or dictionary to hold error details
+            var errorModel = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                ExceptionMessage = exception?.Message,
+                StackTrace = exception?.StackTrace,
+                // Add any other details you want to show or log
+                CustomDetails = "This could be any additional context or data you want to display."
+            };
+
+            // Here you can log the exception if needed
+            //_logger.LogError(exception, "An unhandled exception has occurred.");
+
+            return View(errorModel);
         }
 
         [HttpGet]

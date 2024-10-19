@@ -26,10 +26,11 @@ namespace CWDocs {
         public void ConfigureServices(IServiceCollection services) {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
+                options.AddPolicy(
+                                  name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.AllowAnyOrigin();
+                                      policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                                   });
             });
             // Enable cookie authentication

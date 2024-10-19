@@ -38,4 +38,10 @@
     <ProjectReference Include="..\CWDocsCore\CWDocsCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="CWDocs.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

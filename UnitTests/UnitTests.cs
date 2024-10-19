@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using CWDocsCore.Models;
 using CWDocs;
 using CWDocsCore;
+using Microsoft.Extensions.Configuration;
 
 namespace UnitTests {
     public class UnitTests : IDisposable{
 
-        CWDocsDbContext _context;
+        private readonly CWDocsDbContext _context;
+
 
         public UnitTests() {
             using (var factory = new MemoryDbContextFactory()) {

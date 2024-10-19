@@ -6,7 +6,29 @@
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
-@if (Model.ShowRequestId)
+<p>
+    <strong>Request ID:</strong> <code>@Model.RequestId</code>
+</p>
+
+@if (Model.ExceptionMessage != null)
+{
+    <h3>Exception Message:</h3>
+    <p>@Model.ExceptionMessage</p>
+}
+
+@if (Model.StackTrace != null)
+{
+    <h3>Stack Trace:</h3>
+    <pre>@Model.StackTrace</pre>
+}
+
+@if (!string.IsNullOrEmpty(Model.CustomDetails))
+{
+    <h3>Additional Details:</h3>
+    <p>@Model.CustomDetails</p>
+}
+
+@* @if (Model.ShowRequestId)
 {
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
@@ -23,3 +45,4 @@
     For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
     and restarting the app.
 </p>
+ *@

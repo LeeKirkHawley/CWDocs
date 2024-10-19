@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CWDocsCore", "CWDocsCore\CW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CWDocsAPI", "CWDocsAPI\CWDocsAPI.csproj", "{7A977EDE-1B7A-44FE-8E1F-6A34FABCE17D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CWDocs_8", "CWDocs_8\CWDocs_8.csproj", "{A468C264-E305-45A4-8C60-2C747B215BDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,7 @@ Global
 		{860BD45D-B4C7-4BA0-AB6C-F9AD72EE6FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{860BD45D-B4C7-4BA0-AB6C-F9AD72EE6FEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45363584-4006-48EA-BE29-68BB297FA05D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45363584-4006-48EA-BE29-68BB297FA05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45363584-4006-48EA-BE29-68BB297FA05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45363584-4006-48EA-BE29-68BB297FA05D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C752AC0-1E0D-4C37-B082-4E307ADD82D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -32,9 +35,11 @@ Global
 		{9C752AC0-1E0D-4C37-B082-4E307ADD82D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C752AC0-1E0D-4C37-B082-4E307ADD82D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7A977EDE-1B7A-44FE-8E1F-6A34FABCE17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A977EDE-1B7A-44FE-8E1F-6A34FABCE17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A977EDE-1B7A-44FE-8E1F-6A34FABCE17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A977EDE-1B7A-44FE-8E1F-6A34FABCE17D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A468C264-E305-45A4-8C60-2C747B215BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A468C264-E305-45A4-8C60-2C747B215BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A468C264-E305-45A4-8C60-2C747B215BDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
