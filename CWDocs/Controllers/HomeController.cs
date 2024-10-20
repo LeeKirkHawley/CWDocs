@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
-using System.Threading.Tasks;
 using CWDocsCore;
 using CWDocsCore.Models;
 using Microsoft.AspNetCore.Diagnostics;
@@ -22,7 +20,6 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace CWDocs.Controllers {
     public class HomeController : Controller {
-//        private readonly Logger _debugLogger;
         private readonly IConfiguration _settings;
         //private readonly IOCRService _ocrService;
         private readonly IWebHostEnvironment _environment;
@@ -218,7 +215,7 @@ namespace CWDocs.Controllers {
 
             DocumentModel document = _context.Documents.Where(d => d.fileId == Id).FirstOrDefault();
 
-            string documentFilePath = Path.Combine(_settings["HTMLFilePath"], document.documentName);
+            string documentFilePath = Path.Combine(_settings["UploadFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
                 documentId = document.fileId,
@@ -232,8 +229,9 @@ namespace CWDocs.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Delete([FromForm] int documentId) {
-            _documentService.DeleteDocument(documentId);
+        public IActionResult Delete([FromForm] int documentId) 
+        {
+            _documentService.DeleteDocument(documentId, _environment.WebRootPath);
             return Ok();
         }
 
@@ -265,14 +263,9 @@ namespace CWDocs.Controllers {
             var fileName = Guid.NewGuid().ToString();
 
             // set up the document file (input) path
-            string documentFilePath = Path.Combine(_settings["DocumentFilePath"], fileName);
+            var webRootPath = _environment.WebRootPath;
+            string documentFilePath = Path.Combine(webRootPath, _settings["DownloadFilePath"], fileName);
             documentFilePath += imageFileExtension;
-
-            //_debugLogger.Info($"ImageFilePath: {imageFilePath}");
-            //_debugLogger.Info($"Current: {Directory.GetCurrentDirectory()}");
-
-            // set up the text file (output) path
-            //string textFilePath = Path.Combine(_settings["TextFilePath"], fileName);
 
             // If file with same name exists
             if (System.IO.File.Exists(documentFilePath)) {
@@ -284,6 +277,7 @@ namespace CWDocs.Controllers {
                 using (var localFile = System.IO.File.OpenWrite(documentFilePath))
                 using (var uploadedFile = files[0].OpenReadStream()) {
                     uploadedFile.CopyTo(localFile);
+                    bool fileExists = System.IO.File.Exists(documentFilePath);
 
                     // update model for display of ocr'ed data
                     model.OriginalFileName = originalFileName;
@@ -301,6 +295,7 @@ namespace CWDocs.Controllers {
                 throw;
             }
 
+            var doesFileExist = System.IO.File.Exists(documentFilePath);
             //string errorMsg = "";
 
             //if (imageFileExtension.ToLower() == ".pdf") {
@@ -342,7 +337,5 @@ namespace CWDocs.Controllers {
                 throw;
             }
         }
-
-
     }
 }
