@@ -10,6 +10,6 @@ using System.Threading.Tasks;
 namespace CWDocsCore.Services {
     public interface IDocumentService {
         public List<DocumentModel> GetDocuments(UserModel user);
-        public void DeleteDocument(int documentId);
+        public void DeleteDocument(int documentId, string rootPath);
     }
 }

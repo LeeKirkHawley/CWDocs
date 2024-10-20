@@ -37,9 +37,9 @@ namespace CWDocsCore.Services {
             return document;
         }
 
-        public void DeleteDocument(int documentId) {
+        public void DeleteDocument(int documentId, string rootPath) {
             DocumentModel document = _context.Documents.Where(d => d.fileId == documentId).FirstOrDefault();
-            string documentFilePath = Path.Combine(_settings["DocumentFilePath"], document.documentName);
+            string documentFilePath = Path.Combine(rootPath, _settings["DownloadFilePath"], document.documentName);
 
             var ret = _context.Remove(document);
             _context.SaveChanges();
