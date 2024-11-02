@@ -35,6 +35,7 @@ namespace CWDocsCore.Services {
         public bool DeleteUser(UserModel user) {
             try {
                 var entity = _context.Users.Remove(user);
+                int changes = _context.SaveChanges();
             }
             catch(Exception ex) {
                 throw;
