@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CWDocsCore.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace CWDocsCore {
     public class CWDocsDbContext : DbContext {
@@ -15,8 +17,6 @@ namespace CWDocsCore {
             _settings = settings;
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder options)
-        //    => options.UseSqlite("Data Source=C:\\Work\\CWDocs\\CWDocsCore\\CWDocs.db");
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             string sqLiteDbPath = _settings["SQLiteDbPath"];

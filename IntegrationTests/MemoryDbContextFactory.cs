@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CWDocs;
 using Microsoft.Data.Sqlite;
 using CWDocsCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +11,7 @@ namespace UnitTests {
         private DbConnection _connection;
         private readonly IConfiguration _settings;
 
-        MemoryDbContextFactory(IConfiguration settings)
+        public MemoryDbContextFactory(IConfiguration settings)
         {
             _settings = settings;
         }

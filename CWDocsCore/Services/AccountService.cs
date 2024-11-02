@@ -31,7 +31,7 @@ namespace CWDocsCore.Services {
                 return null;
             }
 
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, user.userName));
 
             //foreach (var role in user.Roles) {
@@ -45,6 +45,8 @@ namespace CWDocsCore.Services {
 
         public ClaimsPrincipal CreateUser(string userName, string password, string role) {
 
+            //password = HashPassword(password)
+            
             UserModel user = _userService.CreateUser(userName, password, role);
             if (user == null) {
                 return null;
@@ -62,6 +64,11 @@ namespace CWDocsCore.Services {
 
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
             return principal;
+        }
+
+        private string HashPassword(string password) 
+        {
+            return password;
         }
 
     }

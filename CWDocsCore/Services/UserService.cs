@@ -21,12 +21,13 @@ namespace CWDocsCore.Services {
 
         public UserModel CreateUser(string userName, string password, string role) {
 
-            var newuser = _context.Users.Add(new UserModel {
+            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<UserModel> newuser = _context.Users.Add(new UserModel {
                 userName = userName,
                 pwd = password,
                 role = role
             });
-            _context.SaveChanges();
+
+            int changes = _context.SaveChanges();
 
             return newuser.Entity;
         }
