@@ -5,37 +5,46 @@ using CWDocsCore.Models;
 using CWDocsCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Security.Claims;
 
-namespace UnitTests {
-    public class UserServiceUnitTests{
+namespace UnitTests
+{
+    public class AccountServiceUnitTests
+    {
 
-        //private readonly Mock<IAccountService> _accountService = new Mock<IAccountService>();
+        private readonly Mock<IUserService> _userService = new Mock<IUserService>();
         private readonly IConfiguration _configuration;
         CWDocsDbContext _dBcontext;
 
-        public UserServiceUnitTests() {
+        public AccountServiceUnitTests()
+        {
             _configuration = CreateConfiguration();
             _dBcontext = CreateDbContext();
         }
 
         [Fact]
-        public void Should_Create_New_User() {
-
-            UserModel addedUser = GetSut().CreateUser("Fred Boggs", "pwd", "somerole");
-
-            Assert.Equal("Fred Boggs", addedUser.userName);
-        }
-
-        [Fact]
-        public void Should_Delete_User()
+        public void Should_Login()
         {
-            UserService sut = GetSut();
-            UserModel addedUser = GetSut().CreateUser("Fred Boggs", "pwd", "somerole");
+            _userService.Setup(s => s.GetAllowedUser(It.IsAny<string>()))
+                .Returns(new UserModel { Id = 1, userName = "Kirk", pwd = "pwd" , role = "somerole"});
 
-            bool success = sut.DeleteUser(addedUser);
+            ClaimsPrincipal claimsPrincipal = GetSut().Login("Kirk", "pwd");
 
-            Assert.True(success);
+            Assert.NotNull(claimsPrincipal);
+            Assert.Equal("Kirk", claimsPrincipal.Identity.Name);
+            Assert.True(claimsPrincipal.IsInRole("somerole"));
         }
+
+        //[Fact]
+        //public void Should_Delete_User()
+        //{
+        //    UserService sut = GetSut();
+        //    UserModel addedUser = GetSut().CreateUser("Fred Boggs", "pwd", "somerole");
+
+        //    bool success = sut.DeleteUser(addedUser);
+
+        //    Assert.True(success);
+        //}
 
         private IConfiguration CreateConfiguration()
         {
@@ -58,9 +67,9 @@ namespace UnitTests {
             return new CWDocsDbContext(_configuration);
         }
 
-        UserService GetSut()
+        AccountService GetSut()
         {
-            return new UserService(_dBcontext);
+            return new AccountService(_dBcontext, _userService.Object);
         }
     }
 }
