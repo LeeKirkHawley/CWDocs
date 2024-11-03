@@ -16,17 +16,17 @@ namespace CWDocsAPI.Controllers
     //[Authorize]
     public class DocumentController : Controller
     {
-        private readonly ILogger<DocumentController> _logger;
+        //private readonly ILogger<DocumentController> _logger;
         private readonly IAccountService _accountService;
         private readonly IDocumentService _documentService;
         private readonly IUserService _userService;
 
-        public DocumentController(ILogger<DocumentController> logger, 
+        public DocumentController(/*ILogger<DocumentController> logger,*/ 
                                     IAccountService accountService,
                                     IDocumentService documentService,
                                     IUserService userService)
         {
-            _logger = logger;
+            //_logger = logger;
             _accountService = accountService;
             _documentService = documentService;
             _userService = userService;

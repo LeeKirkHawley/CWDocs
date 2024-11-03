@@ -12,7 +12,7 @@ namespace CWDocsCore_UnitTests
     public class DocumentServiceUnitTests
     {
         private readonly Mock<IDocumentService> _userService = new Mock<IDocumentService>();
-        private readonly  Mock<ILogger> _mockLogger = new Mock<ILogger>();
+        private readonly  Mock<ILogger<DocumentService>> _mockLogger = new Mock<ILogger<DocumentService>>();
         private readonly IConfiguration _configuration;
         CWDocsDbContext _dBcontext;
 

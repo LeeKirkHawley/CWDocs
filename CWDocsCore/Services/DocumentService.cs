@@ -9,15 +9,15 @@ namespace CWDocsCore.Services {
     public class DocumentService : IDocumentService {
 
         private readonly CWDocsDbContext _context;
-        private readonly ILogger _debugLogger;
+        private readonly ILogger<DocumentService> _Logger;
         private readonly Microsoft.Extensions.Configuration.IConfiguration _settings;
 
 
-        public DocumentService(Microsoft.Extensions.Configuration.IConfiguration settings, CWDocsDbContext context, ILogger logger) {
-            //_debugLogger = LogManager.GetLogger("debugLogger");
+        public DocumentService(Microsoft.Extensions.Configuration.IConfiguration settings, CWDocsDbContext context, ILogger<DocumentService> logger) {
+//            _debugLogger = LogManager.GetLogger("debugLogger");
             _settings = settings;
             _context = context;
-            _debugLogger = logger;
+            _Logger = logger;
         }
 
         public List<DocumentModel> GetDocuments(UserModel user)
@@ -28,6 +28,8 @@ namespace CWDocsCore.Services {
 
         public DocumentModel GetDocument(UserModel user, int id)
         {
+            _Logger.LogWarning($"Getting document {id}");
+
             DocumentModel document = _context.Documents.Where(d => d.userId == user.Id && d.Id == id).FirstOrDefault();
             return document;
         }
@@ -68,7 +70,7 @@ namespace CWDocsCore.Services {
             }
             else
             {
-                _debugLogger.LogWarning($"WARNING: trying to delete {documentFilePath}, but file doesn't exist.");
+                _Logger.LogWarning($"WARNING: trying to delete {documentFilePath}, but file doesn't exist.");
             }
         }
     }

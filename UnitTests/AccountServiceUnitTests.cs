@@ -15,7 +15,7 @@ namespace UnitTests
 
         private readonly Mock<IUserService> _userService = new Mock<IUserService>();
         private readonly IConfiguration _configuration;
-        private readonly Mock<ILogger> _logger = new Mock<ILogger>();
+        private readonly Mock<ILogger<AccountService>> _logger = new Mock<ILogger<AccountService>>();
         CWDocsDbContext _dBcontext;
 
         public AccountServiceUnitTests()

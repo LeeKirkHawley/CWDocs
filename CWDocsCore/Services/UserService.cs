@@ -7,10 +7,10 @@ namespace CWDocsCore.Services {
 
     public class UserService : IUserService {
         private readonly CWDocsDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<UserService> _logger;
 
 
-        public UserService(CWDocsDbContext context, ILogger logger) {
+        public UserService(CWDocsDbContext context, ILogger<UserService> logger) {
             _context = context;
             _logger = logger;
         }
