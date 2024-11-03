@@ -37,6 +37,29 @@ namespace CWDocsCore.Services {
             return document;
         }
 
+        public DocumentModel CreateDocument(UserModel user, string originalFileName, string documentFilePath)
+        {
+            DocumentModel newDoc = _context.Documents.Add(new DocumentModel
+            {
+                userId = user.Id,
+                documentName = Path.GetFileName(documentFilePath),
+                originalDocumentName = originalFileName,
+                documentDate = DateTime.Now.Ticks
+            }).Entity;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return newDoc;
+        }
+
+
         public void DeleteDocument(int documentId, string rootPath) {
             DocumentModel document = _context.Documents.Where(d => d.fileId == documentId).FirstOrDefault();
             string documentFilePath = Path.Combine(rootPath, _settings["DownloadFilePath"], document.documentName);

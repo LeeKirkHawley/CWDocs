@@ -235,9 +235,11 @@ namespace CWDocs.Controllers {
             return Ok();
         }
 
-        public void UploadDocuments(CWDocsUploadDocsViewModel model, IFormFile[] files, ClaimsPrincipal User) {
+        public void UploadDocuments(CWDocsUploadDocsViewModel model, IFormFile[] files, ClaimsPrincipal User)
+        {
             ClaimsIdentity identity = User.Identities.ToArray()[0];
-            if (!identity.IsAuthenticated) {
+            if (!identity.IsAuthenticated)
+            {
                 throw new Exception("user is not logged in.");
             }
 
@@ -246,10 +248,12 @@ namespace CWDocs.Controllers {
             DateTime startTime = DateTime.Now;
 
             string file = "";
-            try {
+            try
+            {
                 file = $"{files[0].FileName}";
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logger.Debug(ex, "Exception reading file name.");
             }
 
@@ -268,14 +272,17 @@ namespace CWDocs.Controllers {
             documentFilePath += imageFileExtension;
 
             // If file with same name exists
-            if (System.IO.File.Exists(documentFilePath)) {
+            if (System.IO.File.Exists(documentFilePath))
+            {
                 throw new Exception($"Document {documentFilePath} already exists!");
             }
 
             // Create new local file and copy contents of uploaded file
-            try {
+            try
+            {
                 using (var localFile = System.IO.File.OpenWrite(documentFilePath))
-                using (var uploadedFile = files[0].OpenReadStream()) {
+                using (var uploadedFile = files[0].OpenReadStream())
+                {
                     uploadedFile.CopyTo(localFile);
                     bool fileExists = System.IO.File.Exists(documentFilePath);
 
@@ -289,7 +296,8 @@ namespace CWDocs.Controllers {
                     _logger.Info($"Thread {Thread.CurrentThread.ManagedThreadId}: Finished uploading document {file} to {localFile} Elapsed time: {duration}");
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logger.Debug($"Couldn't write file {documentFilePath}");
                 // HANDLE ERROR
                 throw;
@@ -323,19 +331,8 @@ namespace CWDocs.Controllers {
             //}
 
 
-            DocumentModel newDoc = _context.Documents.Add(new DocumentModel {
-                userId = user.Id,
-                documentName = Path.GetFileName(documentFilePath),
-                originalDocumentName = originalFileName,
-                documentDate = DateTime.Now.Ticks
-            }).Entity;
-
-            try {
-                _context.SaveChanges();
-            }
-            catch (Exception e) {
-                throw;
-            }
+            _documentService.CreateDocument(user, originalFileName, documentFilePath);
         }
+
     }
 }
