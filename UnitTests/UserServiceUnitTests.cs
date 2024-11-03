@@ -65,7 +65,7 @@ namespace UnitTests {
 
         UserService GetSut()
         {
-            return new UserService(_dBcontext, _logger.Object);
+            return new UserService(_dBcontext);
         }
     }
 }

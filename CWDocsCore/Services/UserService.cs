@@ -2,17 +2,17 @@
 using System.Linq;
 using CWDocsCore.Models;
 using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace CWDocsCore.Services {
 
     public class UserService : IUserService {
         private readonly CWDocsDbContext _context;
-        private readonly ILogger<UserService> _logger;
 
+        public static NLog.Logger _logger { get; set; } = LogManager.GetCurrentClassLogger();
 
-        public UserService(CWDocsDbContext context, ILogger<UserService> logger) {
+        public UserService(CWDocsDbContext context) {
             _context = context;
-            _logger = logger;
         }
 
         public UserModel GetAllowedUser(string userName) {

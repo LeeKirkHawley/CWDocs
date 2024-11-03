@@ -1,6 +1,7 @@
 ﻿using CWDocsCore.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
+using NLog;
 using System.Security.Claims;
 
 namespace CWDocsCore.Services {
@@ -8,17 +9,18 @@ namespace CWDocsCore.Services {
 
         private readonly CWDocsDbContext _context;
         private readonly IUserService _userService;
-        private readonly ILogger<AccountService> _logger;
 
-        public AccountService(CWDocsDbContext context, IUserService userService, ILogger<AccountService> logger) {
+        public static NLog.Logger _logger { get; set; } = LogManager.GetCurrentClassLogger();
+
+
+        public AccountService(CWDocsDbContext context, IUserService userService) {
             _context = context;
             _userService = userService;
-            _logger = logger;
         }
 
         public ClaimsPrincipal Login(string userName, string password) 
         {
-            _logger.LogInformation($"Logging in user {userName}");
+            _logger.Info($"Logging in user {userName}");
 
             UserModel user = _userService.GetAllowedUser(userName);
             if (user == null) {

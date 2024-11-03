@@ -71,7 +71,7 @@ namespace UnitTests
 
         AccountService GetSut()
         {
-            return new AccountService(_dBcontext, _userService.Object, _logger.Object);
+            return new AccountService(_dBcontext, _userService.Object);
         }
     }
 }

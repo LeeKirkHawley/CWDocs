@@ -51,7 +51,7 @@ namespace CWDocs.Controllers {
 
             //            _ocrService.SetupLanguages();
 
-        _logger.Debug("TEST LOGGING");
+            _logger.Debug("TEST LOGGING");
 
         }
 

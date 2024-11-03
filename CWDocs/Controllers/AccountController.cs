@@ -8,11 +8,13 @@ using CWDocs.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using NLog;
 
 namespace CWDocs.Controllers {
     public class AccountController : Controller {
         private readonly IUserService _userService;
         private readonly IAccountService _accountService;
+        public static NLog.Logger _logger { get; set; } = LogManager.GetCurrentClassLogger();
 
         public AccountController(IUserService userService, IAccountService accountService) {
             _userService = userService;
@@ -40,6 +42,8 @@ namespace CWDocs.Controllers {
         }
 
         public async Task<IActionResult> Logout() {
+            _logger.Info($"Logging out user.");
+
             await HttpContext.SignOutAsync();
 
             return RedirectToAction(nameof(Login));
