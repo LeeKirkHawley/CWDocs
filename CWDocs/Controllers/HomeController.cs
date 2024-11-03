@@ -188,7 +188,7 @@ namespace CWDocs.Controllers {
             {
                 DocumentDataTableModel m = new DocumentDataTableModel();
 
-                m.fileId = doc.fileId;
+                m.fileId = doc.Id;
                 m.userId = doc.userId;
                 m.originalDocumentName = doc.originalDocumentName;
                 m.documentName = doc.documentName;
@@ -213,12 +213,12 @@ namespace CWDocs.Controllers {
         [HttpGet]
         public IActionResult View(int Id) {
 
-            DocumentModel document = _context.Documents.Where(d => d.fileId == Id).FirstOrDefault();
+            DocumentModel document = _context.Documents.Where(d => d.Id == Id).FirstOrDefault();
 
             string documentFilePath = Path.Combine(_settings["UploadFilePath"], document.documentName);
 
             CWDocsViewModel model = new CWDocsViewModel {
-                documentId = document.fileId,
+                documentId = document.Id,
                 image = documentFilePath,
                 documentName = document.documentName,
                 originalDocumentName = document.originalDocumentName,

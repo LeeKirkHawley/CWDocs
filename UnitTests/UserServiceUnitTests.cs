@@ -5,12 +5,13 @@ using CWDocsCore.Models;
 using CWDocsCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace UnitTests {
     public class UserServiceUnitTests{
 
-        //private readonly Mock<IAccountService> _accountService = new Mock<IAccountService>();
         private readonly IConfiguration _configuration;
+        private readonly Mock<ILogger> _logger = new Mock<ILogger>();
         CWDocsDbContext _dBcontext;
 
         public UserServiceUnitTests() {
@@ -20,21 +21,25 @@ namespace UnitTests {
 
         [Fact]
         public void Should_Create_New_User() {
+            UserService sut = GetSut();
 
-            UserModel addedUser = GetSut().CreateUser("Fred Boggs", "pwd", "somerole");
+            UserModel addedUser = sut.CreateUser("Fred Boggs", "pwd", "somerole");
 
             Assert.Equal("Fred Boggs", addedUser.userName);
+            bool success = sut.DeleteUser(addedUser);
         }
 
         [Fact]
         public void Should_Delete_User()
         {
             UserService sut = GetSut();
-            UserModel addedUser = GetSut().CreateUser("Fred Boggs", "pwd", "somerole");
+            UserModel addedUser = sut.CreateUser("Fred Boggs", "pwd", "somerole");
 
             bool success = sut.DeleteUser(addedUser);
 
+            UserModel deletedUser = sut.GetAllowedUser("Fred Boggs");
             Assert.True(success);
+            Assert.Null(deletedUser);
         }
 
         private IConfiguration CreateConfiguration()
@@ -60,7 +65,7 @@ namespace UnitTests {
 
         UserService GetSut()
         {
-            return new UserService(_dBcontext);
+            return new UserService(_dBcontext, _logger.Object);
         }
     }
 }

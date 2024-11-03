@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CWDocsCore;
 using CWDocsCore.Models;
+using Microsoft.Extensions.Logging;
 
 namespace CWDocsCore.Services {
 
     public class UserService : IUserService {
         private readonly CWDocsDbContext _context;
+        private readonly ILogger _logger;
 
-        public UserService(CWDocsDbContext context) {
+
+        public UserService(CWDocsDbContext context, ILogger logger) {
             _context = context;
+            _logger = logger;
         }
 
         public UserModel GetAllowedUser(string userName) {

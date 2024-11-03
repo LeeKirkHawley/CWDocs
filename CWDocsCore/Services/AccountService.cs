@@ -1,23 +1,20 @@
-﻿using CWDocsCore;
-using CWDocsCore.Models;
+﻿using CWDocsCore.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace CWDocsCore.Services {
     public class AccountService : IAccountService {
 
         private readonly CWDocsDbContext _context;
         private readonly IUserService _userService;
+        private readonly ILogger _logger;
 
-        public AccountService(CWDocsDbContext context, IUserService userService) {
+
+        public AccountService(CWDocsDbContext context, IUserService userService, ILogger logger) {
             _context = context;
             _userService = userService;
+            _logger = logger;
         }
 
         public ClaimsPrincipal Login(string userName, string password) {

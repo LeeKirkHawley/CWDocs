@@ -6,6 +6,7 @@ using CWDocsCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace UnitTests
 {
@@ -14,6 +15,7 @@ namespace UnitTests
 
         private readonly Mock<IUserService> _userService = new Mock<IUserService>();
         private readonly IConfiguration _configuration;
+        private readonly Mock<ILogger> _logger = new Mock<ILogger>();
         CWDocsDbContext _dBcontext;
 
         public AccountServiceUnitTests()
@@ -69,7 +71,7 @@ namespace UnitTests
 
         AccountService GetSut()
         {
-            return new AccountService(_dBcontext, _userService.Object);
+            return new AccountService(_dBcontext, _userService.Object, _logger.Object);
         }
     }
 }

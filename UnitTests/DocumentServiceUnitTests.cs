@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using Moq;
 using Xunit;
 using CWDocsCore.Models;
+using Microsoft.Extensions.Logging;
 
 namespace CWDocsCore_UnitTests
 {
     public class DocumentServiceUnitTests
     {
         private readonly Mock<IDocumentService> _userService = new Mock<IDocumentService>();
+        private readonly  Mock<ILogger> _mockLogger = new Mock<ILogger>();
         private readonly IConfiguration _configuration;
         CWDocsDbContext _dBcontext;
 
@@ -40,6 +42,19 @@ namespace CWDocsCore_UnitTests
             DocumentModel documentModel = GetSut().CreateDocument(userModel, "someFileName", "someFilePath");
 
             Assert.NotNull(documentModel);
+            GetSut().DeleteDocument(documentModel.Id, "path");
+        }
+
+        [Fact]
+        public void ShouldDeleteDocument()
+        {
+            UserModel userModel = new UserModel { Id = 1, userName = "Kirk", pwd = "pwd", role = "user" };
+            DocumentModel documentModel = GetSut().CreateDocument(userModel, "someFileName", "someFilePath");
+
+            GetSut().DeleteDocument(documentModel.Id, "path");
+
+            var doc = GetSut().GetDocument(userModel, documentModel.Id);
+            Assert.Null(doc);
         }
 
         [Fact]
@@ -59,6 +74,8 @@ namespace CWDocsCore_UnitTests
             var inMemorySettings = new Dictionary<string, string> {
                 {"SQLiteDataContext", "CWDocs"},
                 {"SQLiteDbPath", "C:\\Work\\A_My_Websites\\CWDocs\\UnitTests\\CWDocs.db"},
+                {"DownloadFilePath", "C:\\Temp"},
+
                 //{"SectionName:SomeKey", "SectionValue"},
             };
 
@@ -76,7 +93,7 @@ namespace CWDocsCore_UnitTests
 
         DocumentService GetSut()
         {
-            return new DocumentService(_configuration, _dBcontext);
+            return new DocumentService(_configuration, _dBcontext, _mockLogger.Object);
         }
 
     }
