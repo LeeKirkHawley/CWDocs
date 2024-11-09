@@ -1,5 +1,7 @@
 ﻿using CWDocsCore.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+
+//using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
 using NLog;
 using System.Security.Claims;
